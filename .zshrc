@@ -209,4 +209,11 @@ unset file
 # Compile: `make -C "${ZDOTDIR}"/powerlevel10k pkg`
 source "${ZDOTDIR}"/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit .p10k.zsh.
-[[ ! -f ${ZDOTDIR:-$HOME}/.p10k.zsh ]] || source "${ZDOTDIR:-$HOME}/.p10k.zsh"
+case "$OSTYPE" in
+  linux*)
+    [[ ! -f ${ZDOTDIR:-$HOME}/.p10k.zsh ]] || source "${ZDOTDIR:-$HOME}/.p10k.zsh"
+  ;;
+  darwin*)
+    [[ ! -f ${ZDOTDIR:-$HOME}/.p10k.mac.zsh ]] || source "${ZDOTDIR:-$HOME}/.p10k.mac.zsh"
+  ;;
+esac
