@@ -1,0 +1,25 @@
+case "$OSTYPE" in
+  linux*)
+    local DISTRIBUTION=$(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release)
+
+    case "$DISTRIBUTION" in
+      arch)
+        paru -Syu --newsonupgrade
+      ;;
+
+      fedora)
+        sudo dnf upgrade --refresh
+      ;;
+    esac
+
+    # Check whether it's inside a container
+    if [ -z $container ]; then
+      printf "\n\n"
+      flatpak update
+    fi
+  ;;
+
+  darwin*)
+    brew upgrade
+  ;;
+esac
