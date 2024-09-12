@@ -43,12 +43,22 @@ unset _DATA_HOME
 unset _CACHE_HOME
 
 # Rootless Podman docker-compose support
-if [[ -e "$XDG_RUNTIME_DIR/podman/podman.sock" ]]; then
-    export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/podman/podman.sock"
+case "$OSTYPE" in
+  linux*)
+    _PODMAN_SOCKET="$XDG_RUNTIME_DIR/podman/podman.sock"
+  ;;
+  darwin*)
+    # podman-mac-helper
+    _PODMAN_SOCKET="/var/run/docker.sock"
+  ;;
+esac
+if [[ -e "$_PODMAN_SOCKET" ]]; then
+    export DOCKER_HOST="unix://$_PODMAN_SOCKET"
 fi
+unset _PODMAN_SOCKET
 
-export ANDROID_HOME="$HOME/Android/Sdk"
-export CHROME_EXECUTABLE="/usr/bin/chromium"
+# export ANDROID_HOME="$HOME/Android/Sdk"
+# export CHROME_EXECUTABLE="/usr/bin/chromium"
 
 typeset -U PATH path
 path=("$PNPM_HOME" "${path[@]}")

@@ -22,6 +22,10 @@ fi
 
 [[ -d "${ZDOTDIR}/completions" ]] && fpath=( "${ZDOTDIR}/completions" "${fpath[@]}" )
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  fpath=( "/opt/homebrew/share/zsh/site-functions" "${fpath[@]}" )
+fi
+
 if [[ -d "${ZDOTDIR}/functions" ]]; then
   fpath=( "${ZDOTDIR}/functions" "${fpath[@]}" )
   # Load functions
@@ -41,6 +45,16 @@ HISTFILE="${_ZSH_STATE_DIR}/histfile"
 HISTSIZE=50000
 SAVEHIST=10000
 unset _ZSH_STATE_DIR
+
+
+# Export environment variables
+case "$OSTYPE" in
+  linux*)
+  ;;
+  darwin*)
+    export HOMEBREW_NO_ANALYTICS=1
+  ;;
+esac
 
 
 # Keybindings
@@ -127,11 +141,18 @@ zstyle ":completion:*" matcher-list "m:{a-zA-Z-_}={A-Za-z_-}" "r:|=*" "l:|=* r:|
 # zstyle ":completion:*" matcher-list "m:{a-zA-Z}={A-Za-z}" "r:|=*" "l:|=* r:|=*"
 
 # Colored completion listings
-if [[ -f ~/.dir_colors ]]; then
-  eval "$(dircolors -b ~/.dir_colors)"
-else
-  eval "$(dircolors -b)"
-fi
+case "$OSTYPE" in
+  linux-gnu)
+    if [[ -f ~/.dir_colors ]]; then
+      eval "$(dircolors -b ~/.dir_colors)"
+    else
+      eval "$(dircolors -b)"
+    fi
+  ;;
+  darwin*)
+    export CLICOLOR=1
+  ;;
+esac
 zstyle ":completion:*" list-colors "${(s.:.)LS_COLORS}"
 
 # Completions with arrow keys
