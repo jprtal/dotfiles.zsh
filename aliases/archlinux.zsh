@@ -1,3 +1,12 @@
+if [[ "$OSTYPE" != "linux"* ]]; then
+  return
+fi
+
+local DISTRIBUTION=$(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release)
+if [[ "$DISTRIBUTION" != "arch" ]]; then
+  return
+fi
+
 # AUR helper
 alias yay="paru"
 alias yeet="paru -Rnsc"
