@@ -9,6 +9,8 @@ case "$OSTYPE" in
 
       fedora)
         sudo dnf upgrade --refresh
+        printf "\n\n"
+        sudo dnf needs-restarting
       ;;
     esac
 
