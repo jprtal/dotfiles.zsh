@@ -1,0 +1,19 @@
+case "$OSTYPE" in
+  linux*)
+      if [ ! "$(ps -p 1 -o comm=)" = "systemd" ]; then
+        printf "%s\n" "systemd is not the init system (PID 1)" >&2
+        return 1
+      fi
+
+      if [ "$(id -u)" -ne 0 ]; then
+        printf "%s\n" "Permission denied. Run as root." >&2
+        return 254
+      fi
+
+      systemctl soft-reboot
+  ;;
+
+  *)
+    return 255
+  ;;
+esac
