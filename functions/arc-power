@@ -1,4 +1,7 @@
-if [[ ! -f "/sys/class/drm/card1/device/hwmon/hwmon1/energy1_input" ]]; then
+local DEVICE=$(lspci | awk '/VGA.*DG2/' | cut -d' ' -f 1)
+local ENERGY_PATH=$(find /sys/bus/pci/devices/0000:$DEVICE/hwmon/hwmon1/ -name "energy*_input" -print -quit)
+
+if [[ ! -f "$ENERGY_PATH" ]]; then
     echo "Invalid graphics energy path"
     return 1
 fi
@@ -8,9 +11,9 @@ if [ $# -eq 1 ]; then
     seconds="$1"
 fi
 
-local first_measure="$(</sys/class/drm/card1/device/hwmon/hwmon1/energy1_input)"
+local first_measure="$(<"$ENERGY_PATH")"
 sleep "$seconds";
-local second_measure="$(</sys/class/drm/card1/device/hwmon/hwmon1/energy1_input)"
+local second_measure="$(<"$ENERGY_PATH")"
 
 local microjoules_second=$((second_measure - first_measure))
 # local watts=$((microjoules_second / 1000000))
