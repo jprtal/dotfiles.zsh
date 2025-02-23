@@ -60,6 +60,14 @@ unset _PODMAN_SOCKET
 # export ANDROID_HOME="$HOME/Android/Sdk"
 # export CHROME_EXECUTABLE="/usr/bin/chromium"
 
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # Construct macOS PATH environment variable
+  if [ -x /usr/libexec/path_helper ]; then
+    eval $(/usr/libexec/path_helper -s)
+  fi
+fi
+
 typeset -U PATH path
 path=("$PNPM_HOME" "${path[@]}")
 export PATH
