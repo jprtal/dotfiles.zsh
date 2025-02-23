@@ -1,0 +1,71 @@
+# logic to detect the kernel naming like '6.11.8-300.fc41.x86_64' or 'linux-lts'
+local KERNEL_VER="$1"
+case "$OSTYPE" in
+  linux*)
+    local DISTRIBUTION=$(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release)
+
+    case "$DISTRIBUTION" in
+      arch)
+        # User selected kernel with fallback to "linux"
+        KERNEL_VER="${KERNEL_VER:-linux}"
+      ;;
+
+      fedora)
+        # User selected kernel with fallback to the latest installed version
+        KERNEL_VER="${KERNEL_VER:-$(
+          rpm --query --queryformat='%{VERSION}-%{RELEASE}.%{ARCH}\n' kernel \
+          | sort --version-sort --reverse \
+          | head --lines=1
+        )}"
+      ;;
+    esac
+  ;;
+
+  *)
+    return 255
+  ;;
+esac
+
+
+local VMLINUZ="/boot/vmlinuz-${KERNEL_VER}"
+local INITRD="/boot/initramfs-${KERNEL_VER}.img"
+
+if [ -z "${KERNEL_VER}" ]; then
+  printf "%s\n" "kernel: cannot find version" >&2
+  return 1
+else
+  printf "%s\n" "kernel: using version ${KERNEL_VER}"
+fi
+
+if [ ! -f "${VMLINUZ}" ]; then
+  printf "%s\n" "vmlinuz: cannot find ${VMLINUZ}" >&2
+  return 2
+else
+  printf "%s\n" "vmlinuz: using ${VMLINUZ}"
+fi
+
+if [ ! -f "${INITRD}" ]; then
+  printf "%s\n" "initrd: cannot find ${INITRD}" >&2
+  return 3
+else
+  printf "%s\n" "initrd: using ${INITRD}"
+fi
+
+if [ "$(id -u)" -ne 0 ]; then
+  printf "\n%s\n" "Permission denied. Run as root." >&2
+  return 254
+fi
+
+local CMDLINE_PATH="/etc/kernel/cmdline"
+local CMDLINE=""
+if [ ! -f "${CMDLINE_PATH}" ]; then
+  printf "%s\n" "cmdline: cannot find ${CMDLINE_PATH}. Reusing the one from the running system"
+  kexec --load "${VMLINUZ}" --initrd="${INITRD}" --reuse-cmdline
+else
+  CMDLINE=$(cat ${CMDLINE_PATH})
+  printf "%s\n" "cmdline: using ${CMDLINE}"
+  kexec --load "${VMLINUZ}" --initrd="${INITRD}" --command-line="${CMDLINE}"
+fi
+
+# kexec --load "${VMLINUZ}" --initrd="${INITRD}" --reuse-cmdline
+systemctl kexec
