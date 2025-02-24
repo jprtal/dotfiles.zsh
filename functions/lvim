@@ -1,0 +1,5 @@
+if [[ -d ${XDG_CONFIG_HOME:-$HOME/.config}/lazyvim ]]; then
+  NVIM_APPNAME=lazyvim nvim "$@"
+else
+  echo "LazyVim not available."
+fi
