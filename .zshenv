@@ -36,6 +36,8 @@ export CUDA_CACHE_PATH="$_CACHE_HOME/nv"
 export TEXMFHOME="$_DATA_HOME/texmf"
 export TEXMFVAR="$_CACHE_HOME/texlive/texmf-var"
 export TEXMFCONFIG="$_CONFIG_HOME/texlive/texmf-config"
+export GOPATH="$_DATA_HOME/go"
+export GOMODCACHE="$_CACHE_HOME/go/mod"
 
 unset _CONFIG_HOME
 unset _STATE_HOME
