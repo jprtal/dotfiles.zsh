@@ -1,1 +1,6 @@
-hexdump -C "$1" | less
+if command -v -- "hexdump" > /dev/null 2>&1; then
+  hexdump -C "$1" | less
+else
+  printf "%s\n" "Command 'hexdump' not found. Falling back to 'od'."
+  od -A x -t x2z -v "$1" | less
+fi
