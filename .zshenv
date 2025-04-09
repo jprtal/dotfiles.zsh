@@ -24,7 +24,7 @@ export GTK2_RC_FILES="$_CONFIG_HOME/gtk-2.0/gtkrc"
 export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=$_CONFIG_HOME/java"
 export DOCKER_CONFIG="$_CONFIG_HOME/docker"
 export LESSHISTFILE="$_STATE_HOME/less/lesshst"
-export PYTHONHISTFILE="$_STATE_HOME/python_history"
+export PYTHON_HISTORY="$_STATE_HOME/python_history"
 export RUSTUP_HOME="$_DATA_HOME"/rustup
 export CARGO_HOME="$_DATA_HOME/cargo"
 export NVM_DIR="$_DATA_HOME/nvm"
