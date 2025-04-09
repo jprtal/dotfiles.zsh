@@ -47,6 +47,19 @@ unset _STATE_HOME
 unset _DATA_HOME
 unset _CACHE_HOME
 
+# Telemetry
+# Go: GOTELEMETRY=off or `go telemetry off`
+# Dart: `dart --disable-analytics`
+# Flutter: `flutter config --no-analytics`
+# Dotnet: DOTNET_CLI_TELEMETRY_OPTOUT=1
+# vscode: "telemetry.telemetryLevel": "off"
+# Zed: "telemetry":{"diagnostics":false,"metrics":false}
+# Homebrew: HOMEBREW_NO_ANALYTICS=1 or `brew analytics off`
+# Selenium: SE_AVOID_STATS=true
+# Hugging Face: HF_HUB_DISABLE_TELEMETRY=1
+# Next.js: NEXT_TELEMETRY_DISABLED=1 or `next telemetry disable`
+# vcpkg: VCPKG_DISABLE_METRICS=1 or `./bootstrap-vcpkg.sh -disableMetrics`
+
 # Rootless Podman docker-compose support
 case "$OSTYPE" in
   linux*)
