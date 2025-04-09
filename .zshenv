@@ -38,6 +38,9 @@ export TEXMFVAR="$_CACHE_HOME/texlive/texmf-var"
 export TEXMFCONFIG="$_CONFIG_HOME/texlive/texmf-config"
 export GOPATH="$_DATA_HOME/go"
 export GOMODCACHE="$_CACHE_HOME/go/mod"
+export R_HOME_USER="$_CONFIG_HOME/R"
+export R_PROFILE_USER="$_CONFIG_HOME/R/profile"
+export R_HISTFILE="$_CONFIG_HOME/R/history"
 
 unset _CONFIG_HOME
 unset _STATE_HOME
