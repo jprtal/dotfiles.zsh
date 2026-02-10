@@ -42,6 +42,7 @@ export GOMODCACHE="$_CACHE_HOME/go/mod"
 export R_HOME_USER="$_CONFIG_HOME/R"
 export R_PROFILE_USER="$_CONFIG_HOME/R/profile"
 export R_HISTFILE="$_CONFIG_HOME/R/history"
+export NUGET_PACKAGES="$_CACHE_HOME/NuGetPackages"
 
 unset _CONFIG_HOME
 unset _STATE_HOME
