@@ -1,5 +1,5 @@
 # Network
-alias myip="curl -4 icanhazip.com; curl -6 icanhazip.com"
+alias myip="echo -n 'IPv4: ' && curl -4 ipv4.icanhazip.com; echo -n 'IPv6: ' && curl -s6 ipv6.icanhazip.com"
 
 # Adjust monitor brightness
 alias bn="ddcutil setvcp 10"
