@@ -1,6 +1,6 @@
 if [ $# -eq 0 ]; then
     echo "Usage: tar-zstd [1-19] <output> <input>"
-    echo "Use 'pkill -USR1 tar' to print statistics."
+    echo "Use '`kill -USR1 <pid>` or `pkill -USR1 tar`' to print statistics."
     return 1
 fi
 
@@ -15,4 +15,5 @@ if [[ "$2" != *".tar.zst" ]]; then
     return 3
 fi
 
-tar --totals=USR1 -c -I "zstdmt -${1} | pv" -f "$2" "${@:3}"
+# e.g., 'xz -T0 -6'
+tar --totals=USR1 --create --preserve-permissions --use-compress-program "zstd -T0 -${1} | pv" -f "$2" "${@:3}"
