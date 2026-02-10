@@ -46,6 +46,7 @@ export R_HOME_USER="$_CONFIG_HOME/R"
 export R_PROFILE_USER="$_CONFIG_HOME/R/profile"
 export R_HISTFILE="$_CONFIG_HOME/R/history"
 export NUGET_PACKAGES="$_CACHE_HOME/NuGetPackages"
+command -v -- "ipython" > /dev/null 2>&1 && mkdir "$_CONFIG_HOME/ipython"
 
 unset _CONFIG_HOME
 unset _STATE_HOME
