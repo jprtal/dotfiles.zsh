@@ -93,17 +93,33 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 typeset -U PATH path
-path=(
+
+custom_path+=(
   "$PNPM_HOME"
   "$CARGO_HOME"/bin
 
   # Local binaries
   "$HOME/.local/bin/"
+)
 
-  # Flatpak
-  "$HOME/.local/share/flatpak/exports/bin/"
-  "/var/lib/flatpak/exports/bin/"
+case "$OSTYPE" in
+  linux*)
+    custom_path+=(
+      # Flatpak
+      "$HOME/.local/share/flatpak/exports/bin/"
+      "/var/lib/flatpak/exports/bin/"
+    )
+  ;;
+  darwin*)
+    custom_path+=(
+    )
+  ;;
+esac
+
+path=(
+  "${custom_path}"
 
   "${path[@]}"
 )
+
 export PATH
