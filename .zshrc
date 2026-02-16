@@ -65,7 +65,7 @@ case "$OSTYPE" in
 esac
 
 
-# Keybindings
+# Keybindings. Show list with `bindkey -L`
 bindkey -e
 
 # create a zkbd compatible hash;
@@ -193,7 +193,18 @@ function toggle-right-prompt() { p10k display '*/right'=hide,show; }
 zle -N toggle-right-prompt
 bindkey '^]' toggle-right-prompt
 
+# Zsh edit command buffer
+autoload -Uz edit-command-line
+zle -N edit-command-line
+function my-edit-command-line() {
+  zle edit-command-line
+  zle end-of-line
+  zle reset-prompt
+}
+zle -N my-edit-command-line
+bindkey '^x^e' my-edit-command-line
 
+# Load plugins
 if [[ -d "${ZDOTDIR}/plugins" ]]; then
   for file in "${ZDOTDIR}/plugins"/*/*.zsh(N); do
     source "$file"
