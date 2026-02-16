@@ -6,7 +6,11 @@ setopt no_global_rcs
 export PAGER="${PAGER:-less}"
 export LESS="${LESS:--R}"
 
-export EDITOR="${EDITOR:-nano}"
+if command -v nvim > /dev/null 2>&1; then
+  export EDITOR="nvim"
+else
+  export EDITOR="${EDITOR:-vim}"
+fi
 
 export _CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export _STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
