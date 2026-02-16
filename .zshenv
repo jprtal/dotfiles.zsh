@@ -117,7 +117,7 @@ case "$OSTYPE" in
 esac
 
 path=(
-  "${custom_path}"
+  "${custom_path[@]}"
 
   "${path[@]}"
 )
